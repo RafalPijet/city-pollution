@@ -1,0 +1,12 @@
+.main-menu {
+  display: flex;
+  justify-content: flex-end;
+
+  .list-box {
+    display: inline-flex;
+
+    li {
+      margin: 0 10px;
+    }
+  }
+}

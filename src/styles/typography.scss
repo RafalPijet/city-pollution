@@ -1,0 +1,15 @@
+@import "settings";
+
+a {
+  color: $color-text-light;
+  transition: .3s;
+
+  &:hover {
+    color: $color-primary;
+  }
+
+  &.active {
+    color: $color-primary;
+    font-weight: bold;
+  }
+}
