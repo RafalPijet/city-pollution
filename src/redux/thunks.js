@@ -1,6 +1,7 @@
 import axios from 'axios';
+import {startRequest, stopRequest, errorRequest, resetRequest} from "./actions/requestActions";
 
-export const getData = () => {
+export const getPullutionDataRequest = () => {
     return async dispatch => {
         console.log('wow');
         try {
