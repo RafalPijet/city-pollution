@@ -1,7 +1,10 @@
 import React from 'react';
+import SearchBox from '../../features/SearchBox/SearchBoxContainer';
 
 const Countries = () => (
-    <div>Countries</div>
+    <div>
+        <SearchBox/>
+    </div>
 );
 
 export default Countries;

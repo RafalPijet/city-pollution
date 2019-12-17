@@ -1,0 +1,13 @@
+@import '../../../styles/settings';
+
+.search-box-main {
+  display: flex;
+  justify-content: center;
+  padding: 20px 30px;
+
+  input {
+    font-size: $big-size;
+    box-shadow: $box-shadow;
+    outline: none;
+  }
+}
