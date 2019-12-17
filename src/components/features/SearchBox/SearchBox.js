@@ -46,17 +46,29 @@ class SearchBox extends React.Component {
     };
 
     nameHandling = async event => {
+        const {request, resetRequest} = this.props;
+        if (request.error !== null) resetRequest();
         await this.checkAvailableCountry(false, event.target.value);
         this.setState({isDisabled: this.checkAvailableCountry(true, this.state.name)});
     };
 
     selectCountry = event => {
-        const {countries, setCountry} = this.props;
+        const {countries} = this.props;
         const {name} = this.state;
+        const {loadData} = this;
         event.preventDefault();
         countries.forEach(item => {
-            if (item.name === name) setCountry(item)
+            if (item.name === name) loadData(item);
         })
+    };
+
+    loadData = country => {
+        const {setCountry, loadPollution} = this.props;
+        setCountry(country);
+        loadPollution(country, 'pm25');
+        loadPollution(country, 'pm10');
+        loadPollution(country, 'so2');
+        loadPollution(country, 'no2');
     };
 
     render() {
@@ -75,7 +87,10 @@ SearchBox.propTypes = {
     setCountries: PropTypes.func.isRequired,
     setCountry: PropTypes.func.isRequired,
     countries: PropTypes.array.isRequired,
-    country: PropTypes.object.isRequired
+    country: PropTypes.object.isRequired,
+    loadPollution: PropTypes.func.isRequired,
+    resetRequest: PropTypes.func.isRequired,
+    request: PropTypes.object.isRequired
 };
 
 export default SearchBox;
