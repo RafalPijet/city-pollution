@@ -6,7 +6,9 @@ import {availableCountries} from "../../../utilities/functions";
 
 class SearchBox extends React.Component {
     state = {
-        name: ''
+        name: '',
+        check: true,
+        isDisabled: true
     };
 
     componentDidMount() {
@@ -14,24 +16,66 @@ class SearchBox extends React.Component {
         setCountries(availableCountries);
     }
 
-    nameHandling = event => {
-        this.setState({name: event.target.value});
+    componentWillReceiveProps(nextProps) {
+
+        if (Object.keys(nextProps.country).length !== 0) {
+            this.setState({name: '', check: true, isDisabled: true})
+        }
+    }
+
+    checkAvailableCountry = (isForDisabled, name) => {
+        const {countries} = this.props;
+
+        if (isForDisabled) {
+            let result = true;
+            countries.forEach(item => {
+                if (item.name === name) result = false;
+            });
+            return result
+        } else {
+            this.state.name.length === 0 ? this.setState({name: name.toUpperCase()}) :
+                this.setState({name: name});
+            if (this.state.check && this.state.name.length >= 1) {
+                countries.forEach(item => {
+                    if (item.name.includes(name)) {
+                        this.setState({name: item.name, check: false});
+                    }
+                });
+            } else if (this.state.name.length < 1) this.setState({check: true});
+        }
     };
-    render() {
-        const {nameHandling} = this;
+
+    nameHandling = async event => {
+        await this.checkAvailableCountry(false, event.target.value);
+        this.setState({isDisabled: this.checkAvailableCountry(true, this.state.name)});
+    };
+
+    selectCountry = event => {
+        const {countries, setCountry} = this.props;
         const {name} = this.state;
+        event.preventDefault();
+        countries.forEach(item => {
+            if (item.name === name) setCountry(item)
+        })
+    };
+
+    render() {
+        const {nameHandling, selectCountry} = this;
+        const {name, isDisabled} = this.state;
         return (
-            <div className='search-box-main'>
+            <form className='search-box-main' onSubmit={selectCountry}>
                 <input type="text" value={name} onChange={nameHandling}/>
-                <Button variant="primary">Search</Button>
-            </div>
+                <Button disabled={isDisabled} variant={isDisabled ? "danger" : "success"}>Select</Button>
+            </form>
         )
     }
 }
 
 SearchBox.propTypes = {
     setCountries: PropTypes.func.isRequired,
-    countries: PropTypes.array.isRequired
+    setCountry: PropTypes.func.isRequired,
+    countries: PropTypes.array.isRequired,
+    country: PropTypes.object.isRequired
 };
 
 export default SearchBox;
