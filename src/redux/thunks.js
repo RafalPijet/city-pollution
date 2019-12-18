@@ -10,7 +10,7 @@ export const loadPullutionDataRequest = (country, type) => {
 
         try {
             await new Promise(resolve => setTimeout(resolve, 2000));
-            let res = await axios.get(`${OPENAQ_URL}?country=${country.country}&parameter=${type}&&order_by=value&sort=desc`);
+            let res = await axios.get(`${OPENAQ_URL}?country=${country.country}&parameter=${type}&limit=200&order_by=value&sort=desc`);
 
             switch (type) {
                 case 'pm25':

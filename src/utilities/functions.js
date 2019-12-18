@@ -19,5 +19,5 @@ export const transformData = data => {
             set.splice(set.indexOf(item.city), 1);
         }
     });
-    return result;
+    return result.slice(0, 10);
 };
