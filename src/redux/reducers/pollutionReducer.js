@@ -2,14 +2,16 @@ import {
     SET_PM25_POLLUTION,
     SET_PM10_POLLUTION,
     SET_SO2_POLLUTION,
-    SET_NO2_POLLUTION
+    SET_NO2_POLLUTION,
+    SET_TYPE_POLLUTION
 } from "../actions/pullutionActions";
 
 const initialState = {
     pm25: [],
     pm10: [],
     so2: [],
-    no2: []
+    no2: [],
+    type: ''
 };
 
 const reducer = (state = initialState, action) => {
@@ -22,6 +24,8 @@ const reducer = (state = initialState, action) => {
             return {...state, so2: action.cities};
         case SET_NO2_POLLUTION:
             return {...state, no2: action.cities};
+        case SET_TYPE_POLLUTION:
+            return {...state, type: action.value};
         default:
             return state;
     }

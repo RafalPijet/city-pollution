@@ -10,11 +10,14 @@ class ResultBox extends React.Component {
     };
 
     componentDidMount() {
-        this.toggle(1)
+        this.toggle(1);
+        this.props.setTypePollution('Pm25');
     }
 
-    toggle = tab => {
+    toggle = (tab, type) => {
         const {activeTab} = this.state;
+        const {setTypePollution} = this.props;
+        setTypePollution(type);
         if (activeTab !== tab) this.setState({activeTab: tab});
     };
 
@@ -26,30 +29,30 @@ class ResultBox extends React.Component {
                 <Nav tabs>
                     <NavItem>
                         <NavLink
-                            onClick={() => this.toggle(1)}
+                            onClick={() => this.toggle(1, 'Pm25')}
                             className={`${classnames({active: activeTab === 1})} btn`}>
                             {`Pm25`}
                         </NavLink>
                     </NavItem>
                     <NavItem>
                         <NavLink
-                            onClick={() => this.toggle(2)}
+                            onClick={() => this.toggle(2, 'Pm10')}
                             className={`${classnames({active: activeTab === 2})} btn`}>
                             {`Pm10`}
                         </NavLink>
                     </NavItem>
                     <NavItem>
                         <NavLink
-                            onClick={() => this.toggle(3)}
+                            onClick={() => this.toggle(3, 'So2')}
                             className={`${classnames({active: activeTab === 3})} btn`}>
-                            {`SO2`}
+                            {`S02`}
                         </NavLink>
                     </NavItem>
                     <NavItem>
                         <NavLink
-                            onClick={() => this.toggle(4)}
+                            onClick={() => this.toggle(4, 'No2')}
                             className={`${classnames({active: activeTab === 4})} btn`}>
-                            {`NO2`}
+                            {`No2`}
                         </NavLink>
                     </NavItem>
                 </Nav>
@@ -67,14 +70,14 @@ class ResultBox extends React.Component {
                         <ResultList pollution={pollution.no2} name='no2' unit='µg/m³'/>
                     </TabPane>
                 </TabContent>
-
             </div>
         )
     }
-};
+}
 
 ResultBox.propTypes = {
-    pollution: PropTypes.object.isRequired
+    pollution: PropTypes.object.isRequired,
+    setTypePollution: PropTypes.func.isRequired
 };
 
 export default ResultBox

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ResultBox from '../ResultBox/ResultBox';
-import InfoBox from '../InfoBox/InfoBox';
+import InfoBox from '../InfoBox/InfoBoxContainer';
 import Spinner from '../../common/Spinner/Spinner';
 import Alert from '../../common/Alert/Alert';
 import './ContentBox.scss';
@@ -19,7 +19,7 @@ class ContentBox extends React.Component {
     }
 
     render() {
-        const {request, pollution} = this.props;
+        const {request, pollution, setTypePollution} = this.props;
 
         if (request.pending) {
             return <Spinner/>
@@ -30,7 +30,7 @@ class ContentBox extends React.Component {
         } else if (request.success && this.state.isReady) {
             return (
                 <div className='content-box-main'>
-                    <ResultBox pollution={pollution}/>
+                    <ResultBox pollution={pollution} setTypePollution={setTypePollution}/>
                     <InfoBox/>
                 </div>
             )
@@ -42,7 +42,8 @@ class ContentBox extends React.Component {
 
 ContentBox.propTypes = {
     request: PropTypes.object.isRequired,
-    pollution: PropTypes.object.isRequired
+    pollution: PropTypes.object.isRequired,
+    setTypePollution: PropTypes.func.isRequired
 };
 
 export default ContentBox;
