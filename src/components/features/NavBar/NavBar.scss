@@ -4,6 +4,9 @@
 
   .list-box {
     display: inline-flex;
+    align-items: center;
+    margin: 0;
+    height: 50px;
 
     li {
       margin: 0 10px;

@@ -1,4 +1,5 @@
 $base-size: 14px;
+$base-middle: 18px;
 $big-size: 20px;
 
 $color-text: #333;
@@ -16,16 +17,17 @@ $color-danger: #f0932b;
 $color-class-box-back: #7bed9f;
 $color-class-box-active: #2ed573;
 $color-diary-box-back: #a29bfe;
-$color-unset: #ffffff;
+$color-unset: #dfe4ea;
 $color-set: #f1f2f6;
 $color-off: #a4b0be;
-$color-students-list: #f6e58d;
+$color-body: #8395a7;
 $color-teachers-list: #badc58;
+$color-back: #343A40;
 
 
 $font-text: 'Roboto', sans-serif;
 
 $radius: 5px;
-$box-shadow: 5px 5px 5px rgba(0, 0, 0, .8);
+$box-shadow: 3px 3px 10px rgba(0, 0, 0, .8);
 $radius-alert: 10px;
 $transition2: all 0.1s;

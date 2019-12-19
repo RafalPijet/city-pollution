@@ -4,6 +4,7 @@ import ResultBox from '../ResultBox/ResultBox';
 import InfoBox from '../InfoBox/InfoBoxContainer';
 import Spinner from '../../common/Spinner/Spinner';
 import Alert from '../../common/Alert/Alert';
+import {Animated} from "react-animated-css";
 import './ContentBox.scss';
 
 class ContentBox extends React.Component {
@@ -30,12 +31,31 @@ class ContentBox extends React.Component {
         } else if (request.success && this.state.isReady) {
             return (
                 <div className='content-box-main'>
-                    <ResultBox loadCities={loadCities} pollution={pollution} setTypePollution={setTypePollution}/>
+                    <div className='content-animated'>
+                        <Animated
+                            animationIn='flipInY'
+                            animationOut='rubberBand'
+                            animationInDelay={1000}
+                            isVisible={this.state.isReady}>
+                            <ResultBox loadCities={loadCities} pollution={pollution}
+                                       setTypePollution={setTypePollution}/>
+                        </Animated>
+                    </div>
                     <InfoBox/>
                 </div>
             )
         } else {
-            return <div>Begin</div>
+            return (
+                <Animated
+                    animationIn='fadeIn'
+                    animationOut='rubberBand'
+                    animationInDelay={2000}
+                    isVisible={true}>
+                    <div className='content-box-info'>
+                        <p>Select a country</p>
+                    </div>
+                </Animated>
+            )
         }
     }
 }

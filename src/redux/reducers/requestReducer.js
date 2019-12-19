@@ -18,17 +18,17 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case START_REQUEST:
-            return {...state, pending: true, error: null, success: null, working: false, info: false};
+            return {...state, pending: true, error: null, success: null};
         case STOP_REQUEST:
-            return {...state, pending: false, error: null, success: true, working: false, info: false};
+            return {...state, pending: false, error: null, success: true};
         case ERROR_REQUEST:
             return {...state, pending: false, error: action.error, success: false, working: false, info: false};
         case RESET_REQUEST:
             return {...state, pending: false, error: null, success: null, working: false, info: false};
         case START_WORKING_REQUEST:
-            return {...state, pending: false, error: null, success: true, working: true, info: false};
+            return {...state, working: true, info: false};
         case STOP_WORKING_REQUEST:
-            return {...state, pending: false, error: null, success: true, working: false, info: true};
+            return {...state, working: false, info: true};
         default:
             return state
     }

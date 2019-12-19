@@ -1,0 +1,23 @@
+@import "../../../styles/settings";
+
+.info-header-row {
+  width: 100%;
+  height: 40px;
+  background-color: $color-back;
+  cursor: pointer;
+  border: 1px solid $color-text-light;
+
+  .info-header {
+    padding-top: 5px;
+    text-align: center;
+    font-size: $base-middle;
+    color: $color-unset;
+  }
+}
+
+
+.info-item-body {
+  height: 130px;
+  background-color: $color-unset;
+  overflow-y: scroll;
+}

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './SearchBox.scss';
 import Button from '../../common/Button/Button';
+import {Animated} from "react-animated-css";
 import {availableCountries} from "../../../utilities/functions";
 
 class SearchBox extends React.Component {
@@ -19,7 +20,7 @@ class SearchBox extends React.Component {
     componentWillReceiveProps(nextProps) {
 
         if (Object.keys(nextProps.country).length !== 0) {
-            this.setState({name: '', check: true, isDisabled: true})
+            this.setState({check: true, isDisabled: true})
         }
     }
 
@@ -75,10 +76,16 @@ class SearchBox extends React.Component {
         const {nameHandling, selectCountry} = this;
         const {name, isDisabled} = this.state;
         return (
-            <form className='search-box-main' onSubmit={selectCountry}>
-                <input type="text" value={name} onChange={nameHandling}/>
-                <Button disabled={isDisabled} variant={isDisabled ? "danger" : "success"}>Select</Button>
-            </form>
+            <Animated
+                animationIn='jackInTheBox'
+                isVisible={true}>
+                <form className='search-box-main' onSubmit={selectCountry}>
+                    <div className='search-box-select'>
+                        <input type="text" value={name} onChange={nameHandling}/>
+                        <Button disabled={isDisabled} variant={isDisabled ? "danger" : "success"}>Select</Button>
+                    </div>
+                </form>
+            </Animated>
         )
     }
 }

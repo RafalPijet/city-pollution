@@ -45,10 +45,11 @@ export const loadInfoCitiesRequest = cities => {
     return async dispatch => {
         dispatch(startWorkingRequest());
         console.log('wow');
-        try {
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            await dispatch(setCitiesOfCountry([]));
-            cities.forEach(async item => {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        await dispatch(setCitiesOfCountry([]));
+
+        cities.forEach(async item => {
+            try {
                 let res = await axios.get(`${CORS}${WIKI_URL}?action=query&prop=extracts&format=json&exintro=&titles=${item.name}`);
                 let city = {
                     name: res.data.query.pages[Object.keys(res.data.query.pages)].title,
@@ -56,10 +57,11 @@ export const loadInfoCitiesRequest = cities => {
                     value: item.value
                 };
                 dispatch(addCityOfCountry(city));
-            });
-            dispatch(stopWorkingRequest());
-        } catch (err) {
-            dispatch(errorRequest(err.message))
-        }
+            } catch (err) {
+                dispatch(errorRequest(err.message))
+            }
+        });
+        dispatch(stopWorkingRequest());
+
     }
 };

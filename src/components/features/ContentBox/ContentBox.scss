@@ -1,6 +1,19 @@
 @import "../../../styles/settings";
 
 .content-box-main {
+  margin-top: 10px;
   display: flex;
   justify-content: space-between;
+  width: 100%;
+
+  .content-animated {
+    width: 40%;
+    margin-left: 20px;
+  }
+}
+
+.content-box-info {
+  color: $color-background;
+  text-align: center;
+  margin-top: 5px;
 }

@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import HtmlBox from '../../common/HtmlBox/HtmlBox';
-import {Collapse, Button, CardBody, Card} from 'reactstrap';
+import {Collapse, CardBody, Card} from 'reactstrap';
+import './InfoItem.scss';
 
 class InfoItem extends React.Component {
     state = {
@@ -31,13 +32,14 @@ class InfoItem extends React.Component {
         const {isOpen} = this.state;
         return (
             <div>
-                <div onClick={openHandling}>
-                    <p>{city.name}</p>
+                <div className='info-header-row' onClick={openHandling}>
+                    <p className='info-header'>{city.name}</p>
                 </div>
                 <Collapse isOpen={isOpen}>
                     <Card>
-                        <CardBody>
-                            <HtmlBox>{city.description}</HtmlBox>
+                        <CardBody className='info-item-body'>
+                            <HtmlBox>{(city.description === "" || city.description !== undefined) ? city.description :
+                                '<p>Sorry, but description is not available!</p>'}</HtmlBox>
                         </CardBody>
                     </Card>
                 </Collapse>

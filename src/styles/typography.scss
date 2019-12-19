@@ -5,11 +5,11 @@ a {
   transition: .3s;
 
   &:hover {
-    color: $color-primary;
+    color: $color-back;
   }
 
   &.active {
-    color: $color-primary;
+    color: $color-back;
     font-weight: bold;
   }
 }

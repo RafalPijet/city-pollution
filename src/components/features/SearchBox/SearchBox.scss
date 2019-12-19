@@ -3,11 +3,28 @@
 .search-box-main {
   display: flex;
   justify-content: center;
-  padding: 20px 30px;
+  align-items: center;
 
-  input {
-    font-size: $big-size;
+  .search-box-select {
+    display: flex;
+    align-items: center;
     box-shadow: $box-shadow;
-    outline: none;
+    padding: 0 20px;
+    border-radius: $radius;
+
+    input {
+      font-size: $big-size;
+      outline: none;
+      height: 40px;
+      margin-left: 10px;
+      width: 100px;
+      padding-left: 10px;
+      background-color: inherit;
+      color: $color-back;
+    }
+
+    button {
+      background-color: $color-background;
+    }
   }
 }

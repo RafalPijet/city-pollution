@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import {TabContent, TabPane, Nav, NavItem, NavLink} from 'reactstrap';
 import classnames from 'classnames';
 import ResultList from '../../common/ResultList/ResultList';
+import './ResultBox.scss';
 
 class ResultBox extends React.Component {
     state = {
@@ -26,7 +27,7 @@ class ResultBox extends React.Component {
         const {pollution} = this.props;
         const {activeTab} = this.state;
         return (
-            <div>
+            <div className='result-box-main'>
                 <Nav tabs>
                     <NavItem>
                         <NavLink
