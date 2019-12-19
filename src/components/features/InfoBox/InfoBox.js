@@ -1,18 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import HtmlBox from '../../common/HtmlBox/HtmlBox';
+import InfoItem from '../../common/InfoItem/InfoItem';
+import {sortByValue} from "../../../utilities/functions";
 
 class InfoBox extends React.Component {
-    componentDidMount() {
-        // this.setSelectedPollution(this.props.pollution)
-    }
+    state = {
+        typePollution: 'Pm25',
+        selectedItem: 0
+    };
 
     componentWillReceiveProps(nextProps) {
 
-        if (nextProps.pollution.type && !nextProps.request.pending) {
+        if (nextProps.pollution.type !== this.state.typePollution) {
+            this.setState({typePollution: nextProps.pollution.type});
             this.setSelectedPollution(nextProps.pollution)
         }
     }
+
+    collapseHandling = index => {
+        this.setState({selectedItem: index})
+    };
 
     setSelectedPollution = pollution => {
         const {loadCities} = this.props;
@@ -34,8 +41,13 @@ class InfoBox extends React.Component {
     };
 
     render() {
+        let cities = this.props.cities.sort(sortByValue);
         return (
-            <div>Begin Info Box</div>
+            <div>
+                {cities.map((city, i) => {
+                    return <InfoItem selectedItem={this.state.selectedItem} i={i} collapse={this.collapseHandling} key={i} city={city}/>
+                })}
+            </div>
         )
     }
 }
@@ -43,7 +55,8 @@ class InfoBox extends React.Component {
 InfoBox.propTypes = {
     loadCities: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
-    pollution: PropTypes.object.isRequired
+    pollution: PropTypes.object.isRequired,
+    cities: PropTypes.array.isRequired
 };
 
 export default InfoBox;

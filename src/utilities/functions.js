@@ -21,3 +21,14 @@ export const transformData = data => {
     });
     return result.slice(0, 10);
 };
+
+export const sortByValue = (a, b) => {
+    let comparison = 0;
+
+    if (a.value > b.value) {
+        comparison = -1;
+    } else if (a.value < b.value) {
+        comparison = 1;
+    }
+    return comparison;
+};

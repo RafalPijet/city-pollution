@@ -19,7 +19,7 @@ class ContentBox extends React.Component {
     }
 
     render() {
-        const {request, pollution, setTypePollution} = this.props;
+        const {request, pollution, setTypePollution, loadCities} = this.props;
 
         if (request.pending) {
             return <Spinner/>
@@ -30,7 +30,7 @@ class ContentBox extends React.Component {
         } else if (request.success && this.state.isReady) {
             return (
                 <div className='content-box-main'>
-                    <ResultBox pollution={pollution} setTypePollution={setTypePollution}/>
+                    <ResultBox loadCities={loadCities} pollution={pollution} setTypePollution={setTypePollution}/>
                     <InfoBox/>
                 </div>
             )
@@ -43,7 +43,8 @@ class ContentBox extends React.Component {
 ContentBox.propTypes = {
     request: PropTypes.object.isRequired,
     pollution: PropTypes.object.isRequired,
-    setTypePollution: PropTypes.func.isRequired
+    setTypePollution: PropTypes.func.isRequired,
+    loadCities: PropTypes.func.isRequired
 };
 
 export default ContentBox;
