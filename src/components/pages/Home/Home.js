@@ -6,11 +6,34 @@ const Home = () => (
     <div className='home-main'>
         <Animated
             animationIn='fadeIn'
-            animationOut='rubberBand'
-            animationInDelay={2000}
+            animationInDelay={1000}
             isVisible={true}>
             <div className='home-info'>
-                <h3>Hello</h3>
+                <h1>Hello</h1>
+            </div>
+        </Animated>
+        <Animated
+            animationIn='fadeIn'
+            animationInDelay={3000}
+            isVisible={true}>
+            <div className='home-info'>
+                <h2>Now you can check the facts</h2>
+            </div>
+        </Animated>
+        <Animated
+            animationIn='fadeIn'
+            animationInDelay={5000}
+            isVisible={true}>
+            <div className='home-info'>
+                <h2>about the 10 most polluted cities</h2>
+            </div>
+        </Animated>
+        <Animated
+            animationIn='fadeIn'
+            animationInDelay={7000}
+            isVisible={true}>
+            <div className='home-info'>
+                <h2>in France, Germany, Poland and Spain</h2>
             </div>
         </Animated>
     </div>

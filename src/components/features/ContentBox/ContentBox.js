@@ -13,15 +13,15 @@ class ContentBox extends React.Component {
     };
 
     componentWillReceiveProps(nextProps) {
+        this.setState({isReady: false});
         if (nextProps.pollution.pm25.length !== 0 && nextProps.pollution.pm10.length !== 0 &&
             nextProps.pollution.so2.length !== 0 && nextProps.pollution.no2.length !== 0) {
-            this.setState({isReady: true})
+            this.setState({isReady: true});
         }
     }
 
     render() {
         const {request, pollution, setTypePollution, loadCities} = this.props;
-
         if (request.pending) {
             return <Spinner/>
         } else if (request.error !== null && !request.pending) {
@@ -34,8 +34,6 @@ class ContentBox extends React.Component {
                     <div className='content-animated'>
                         <Animated
                             animationIn='flipInY'
-                            animationOut='rubberBand'
-                            animationInDelay={1000}
                             isVisible={this.state.isReady}>
                             <ResultBox loadCities={loadCities} pollution={pollution}
                                        setTypePollution={setTypePollution}/>
@@ -48,7 +46,6 @@ class ContentBox extends React.Component {
             return (
                 <Animated
                     animationIn='fadeIn'
-                    animationOut='rubberBand'
                     animationInDelay={2000}
                     isVisible={true}>
                     <div className='content-box-info'>

@@ -38,7 +38,7 @@ class InfoItem extends React.Component {
                 <Collapse isOpen={isOpen}>
                     <Card>
                         <CardBody className='info-item-body'>
-                            <HtmlBox>{(city.description === "" || city.description !== undefined) ? city.description :
+                            <HtmlBox>{city.description.length !== 0 ? city.description :
                                 '<p>Sorry, but description is not available!</p>'}</HtmlBox>
                         </CardBody>
                     </Card>

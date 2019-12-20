@@ -16,7 +16,6 @@ export const loadPullutionDataRequest = (country, type) => {
         await dispatch(startRequest());
 
         try {
-            await new Promise(resolve => setTimeout(resolve, 2000));
             let res = await axios.get(`${OPENAQ_URL}?country=${country.country}&parameter=${type}&limit=200&order_by=value&sort=desc`);
 
             switch (type) {
@@ -43,17 +42,16 @@ export const loadPullutionDataRequest = (country, type) => {
 
 export const loadInfoCitiesRequest = cities => {
     return async dispatch => {
-        dispatch(startWorkingRequest());
-        console.log('wow');
-        await new Promise(resolve => setTimeout(resolve, 2000));
         await dispatch(setCitiesOfCountry([]));
+        await dispatch(startWorkingRequest());
 
         cities.forEach(async item => {
             try {
                 let res = await axios.get(`${CORS}${WIKI_URL}?action=query&prop=extracts&format=json&exintro=&titles=${item.name}`);
                 let city = {
                     name: res.data.query.pages[Object.keys(res.data.query.pages)].title,
-                    description: res.data.query.pages[Object.keys(res.data.query.pages)].extract,
+                    description: (res.data.query.pages[Object.keys(res.data.query.pages)].extract === undefined) ? "" :
+                        res.data.query.pages[Object.keys(res.data.query.pages)].extract,
                     value: item.value
                 };
                 dispatch(addCityOfCountry(city));

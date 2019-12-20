@@ -59,13 +59,11 @@ class InfoBox extends React.Component {
                     <Spinner/>
                 </div>
             )
-        } else if (isInfo) {
+        } else if (isInfo && cities.length === 10) {
             return (
                 <div className='info-box-main'>
                     <Animated animationIn='flipInY'
-                              animationOut='rubberBand'
-                              animationInDelay={1000}
-                              isVisible={isInfo}>
+                              isVisible={isInfo && cities.length === 10}>
                         {cities.map((city, i) => {
                             return <InfoItem selectedItem={this.state.selectedItem} i={i}
                                              collapse={this.collapseHandling} key={i} city={city}/>
@@ -76,7 +74,7 @@ class InfoBox extends React.Component {
         } else {
             return (
                 <div className='info-box-spinner'>
-                    <p>Cities description</p>
+                    <p className='text-center'>Cities description</p>
                 </div>
             )
         }

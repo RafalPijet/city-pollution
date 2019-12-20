@@ -35,7 +35,7 @@ p {
 
 .color-red {
   color: #EA2027;
-  background-color: #343A40;
+  background-color: inherit;
   border: none;
 }
 
@@ -54,4 +54,41 @@ p {
   color: #fed330;
   background-color: #343A40;
   border: none;
+}
+
+@media (max-width: 767px) {
+
+  .container-fluid {
+    background-repeat: repeat;
+    height: 1350px;
+
+    .main-menu {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .home-main {
+      justify-content: flex-start;
+
+      h2 {
+        font-size: 25px;
+      }
+    }
+
+    .content-box-main {
+      flex-direction: column;
+
+      .content-animated {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 20px;
+      }
+
+      .info-box-main {
+        width: 100%;
+        margin-right: 0;
+      }
+    }
+  }
 }

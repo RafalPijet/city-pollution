@@ -10,9 +10,9 @@ const ResultList = props => {
             <Table dark>
                 <thead>
                 <tr>
-                    <th>Pos</th>
+                    <th className='text-right'>Pos</th>
                     <th>City</th>
-                    <th>{`${name} (${unit})`}</th>
+                    <th className='text-center'>{`${name} (${unit})`}</th>
                 </tr>
                 </thead>
                 <tbody>

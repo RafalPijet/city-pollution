@@ -54,19 +54,31 @@ class SearchBox extends React.Component {
     };
 
     selectCountry = event => {
-        const {countries} = this.props;
+        const {countries, resetRequest} = this.props;
         const {name} = this.state;
         const {loadData} = this;
+        resetRequest();
         event.preventDefault();
         countries.forEach(item => {
             if (item.name === name) loadData(item);
         })
     };
 
-    loadData = country => {
-        const {setCountry, loadPollution} = this.props;
+    loadData = async country => {
+        const {
+            setCountry,
+            loadPollution,
+            setPM25Pollution,
+            setPM10Pollution,
+            setSO2Pollution,
+            setNO2Pollution
+        } = this.props;
+        setPM25Pollution([]);
+        setPM10Pollution([]);
+        setSO2Pollution([]);
+        setNO2Pollution([]);
         setCountry(country);
-        loadPollution(country, 'pm25');
+        await loadPollution(country, 'pm25');
         loadPollution(country, 'pm10');
         loadPollution(country, 'so2');
         loadPollution(country, 'no2');
@@ -81,7 +93,11 @@ class SearchBox extends React.Component {
                 isVisible={true}>
                 <form className='search-box-main' onSubmit={selectCountry}>
                     <div className='search-box-select'>
-                        <input type="text" value={name} onChange={nameHandling}/>
+                        <input
+                            type="text"
+                            value={name}
+                            onClick={() => this.setState({name: ''})}
+                            onChange={nameHandling}/>
                         <Button disabled={isDisabled} variant={isDisabled ? "danger" : "success"}>Select</Button>
                     </div>
                 </form>
@@ -97,7 +113,11 @@ SearchBox.propTypes = {
     country: PropTypes.object.isRequired,
     loadPollution: PropTypes.func.isRequired,
     resetRequest: PropTypes.func.isRequired,
-    request: PropTypes.object.isRequired
+    request: PropTypes.object.isRequired,
+    setPM25Pollution: PropTypes.func.isRequired,
+    setPM10Pollution: PropTypes.func.isRequired,
+    setSO2Pollution: PropTypes.func.isRequired,
+    setNO2Pollution: PropTypes.func.isRequired
 };
 
 export default SearchBox;
