@@ -1,5 +1,6 @@
 import React from 'react';
 import {Animated} from "react-animated-css";
+import graphic from '../../../images/graphic.png';
 import './Home.scss';
 
 const Home = () => (
@@ -35,6 +36,19 @@ const Home = () => (
             <div className='home-info'>
                 <h2>in France, Germany, Poland and Spain</h2>
             </div>
+        </Animated>
+        <Animated
+            animationIn='fadeIn'
+            animationInDelay={9000}
+            isVisible={true}>
+            <Animated
+                animationIn='jello'
+                animationInDelay={9500}
+                isVisible={true}>
+                <div className='home-info'>
+                    <img src={graphic} alt='graphic image'/>
+                </div>
+            </Animated>
         </Animated>
     </div>
 );
