@@ -6,18 +6,18 @@ import './InfoItem.scss';
 
 class InfoItem extends React.Component {
     state = {
-        isOpen: false
+        isOpen: false,
+        number: 0
     };
 
     componentDidMount() {
         const {i} = this.props;
+        this.setState({number: i});
         if (i === 0) this.setState({isOpen: true})
     }
 
-    componentWillReceiveProps(nextProps) {
-        const {i} = this.props;
-        const {selectedItem} = nextProps;
-        if (selectedItem !== i) this.setState({isOpen: false});
+    static getDerivedStateFromProps(props, state) {
+        return {isOpen: props.selectedItem === state.number};
     }
 
     openHandling = () => {

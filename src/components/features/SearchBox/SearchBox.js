@@ -17,7 +17,7 @@ class SearchBox extends React.Component {
         setCountries(availableCountries);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
 
         if (Object.keys(nextProps.country).length !== 0) {
             this.setState({check: true, isDisabled: true})

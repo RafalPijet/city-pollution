@@ -16,8 +16,7 @@ export const loadPullutionDataRequest = (country, type) => {
         await dispatch(startRequest());
 
         try {
-            let res = await axios.get(`${OPENAQ_URL}?country=${country.country}&parameter=${type}&limit=200&order_by=value&sort=desc`);
-
+            let res = await axios.get(`${OPENAQ_URL}?country=${country.country}&parameter=${type}&limit=400&order_by=value&sort=desc`);
             switch (type) {
                 case 'pm25':
                     dispatch(setPM25Pollution(transformData(res.data.results)));
@@ -44,7 +43,7 @@ export const loadInfoCitiesRequest = cities => {
     return async dispatch => {
         await dispatch(setCitiesOfCountry([]));
         await dispatch(startWorkingRequest());
-
+        console.log('WOW');
         cities.forEach(async item => {
             try {
                 let res = await axios.get(`${CORS}${WIKI_URL}?action=query&prop=extracts&format=json&exintro=&titles=${item.name}`);

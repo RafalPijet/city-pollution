@@ -11,9 +11,7 @@ class ResultBox extends React.Component {
     };
 
     componentDidMount() {
-        const {loadCities, pollution} = this.props;
         this.toggle(1, 'Pm25');
-        loadCities(pollution.pm25);
     }
 
     toggle = (tab, type) => {
@@ -79,8 +77,7 @@ class ResultBox extends React.Component {
 
 ResultBox.propTypes = {
     pollution: PropTypes.object.isRequired,
-    setTypePollution: PropTypes.func.isRequired,
-    loadCities: PropTypes.func.isRequired
+    setTypePollution: PropTypes.func.isRequired
 };
 
 export default ResultBox

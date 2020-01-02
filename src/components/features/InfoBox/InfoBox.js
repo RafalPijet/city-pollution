@@ -11,19 +11,45 @@ class InfoBox extends React.Component {
         typePollution: 'Pm25',
         selectedItem: 0,
         isWorking: false,
-        isInfo: false
+        isInfo: true
     };
 
-    componentWillReceiveProps(nextProps) {
+    // UNSAFE_componentWillReceiveProps(nextProps) {
+    //
+    //     if (nextProps.pollution.type !== this.state.typePollution) {
+    //         this.setState({typePollution: nextProps.pollution.type, selectedItem: 0});
+    //         this.setSelectedPollution(nextProps.pollution)
+    //     }
+    //     this.setState({
+    //         isWorking: nextProps.request.working,
+    //         isInfo: nextProps.request.info
+    //     })
+    // }
 
-        if (nextProps.pollution.type !== this.state.typePollution) {
-            this.setState({typePollution: nextProps.pollution.type, selectedItem: 0});
-            this.setSelectedPollution(nextProps.pollution)
+    // componentDidMount() {
+    //     const {pollution} = this.props;
+    //     this.setSelectedPollution(pollution);
+    // }
+
+    static getDerivedStateFromProps(props, state) {
+
+        if (props.pollution.type !== state.typePollution) {
+            return {
+                typePollution: props.pollution.type,
+                selectedItem: 0
+            }
         }
-        this.setState({
-            isWorking: nextProps.request.working,
-            isInfo: nextProps.request.info
-        })
+        return {
+            isWorking: props.request.working,
+            isInfo: props.request.info
+        }
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const {pollution} = this.props;
+        if (prevState.typePollution !== this.state.typePollution) {
+            this.setSelectedPollution(pollution);
+        }
     }
 
     collapseHandling = index => {
@@ -52,8 +78,8 @@ class InfoBox extends React.Component {
     render() {
         let cities = this.props.cities.sort(sortByValue);
         const {isWorking, isInfo} = this.state;
-
-        if (isWorking && !isInfo) {
+        console.log(cities.length + " -- " + isInfo + ' -- ' + isWorking);
+        if (isWorking && !isInfo && cities.length < 10) {
             return (
                 <div className='info-box-spinner'>
                     <Spinner/>

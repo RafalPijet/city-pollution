@@ -46,7 +46,7 @@ const Home = () => (
                 animationInDelay={9500}
                 isVisible={true}>
                 <div className='home-info'>
-                    <img src={graphic} alt='graphic image'/>
+                    <img src={graphic} alt='graphic'/>
                 </div>
             </Animated>
         </Animated>

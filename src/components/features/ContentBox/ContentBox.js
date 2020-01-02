@@ -12,16 +12,35 @@ class ContentBox extends React.Component {
         isReady: false
     };
 
-    componentWillReceiveProps(nextProps) {
-        this.setState({isReady: false});
-        if (nextProps.pollution.pm25.length !== 0 && nextProps.pollution.pm10.length !== 0 &&
-            nextProps.pollution.so2.length !== 0 && nextProps.pollution.no2.length !== 0) {
-            this.setState({isReady: true});
+    // UNSAFE_componentWillReceiveProps(nextProps) {
+    //     this.setState({isReady: false});
+    //     if (nextProps.pollution.pm25.length === 10 && nextProps.pollution.pm10.length === 10 &&
+    //         nextProps.pollution.so2.length === 10 && nextProps.pollution.no2.length === 10) {
+    //         this.setState({isReady: true});
+    //     }
+    // }
+
+    // componentDidUpdate(prevProps, prevState, snapshot) {
+    //
+    //     if (this.props.pollution.pm25.length === 10 && this.props.pollution.pm10.length === 10 &&
+    //         this.props.pollution.so2.length === 10 && this.props.pollution.no2.length === 10) {
+    //         this.setState({isReady: true});
+    //     }
+    // }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.pollution.pm25.length === 10 && props.pollution.pm10.length === 10 &&
+            props.pollution.so2.length === 10 && props.pollution.no2.length === 10) {
+            return {
+                isReady: true
+            }
         }
+        return null;
     }
 
     render() {
-        const {request, pollution, setTypePollution, loadCities} = this.props;
+        const {request, pollution, setTypePollution} = this.props;
+
         if (request.pending) {
             return <Spinner/>
         } else if (request.error !== null && !request.pending) {
@@ -35,7 +54,7 @@ class ContentBox extends React.Component {
                         <Animated
                             animationIn='flipInY'
                             isVisible={this.state.isReady}>
-                            <ResultBox loadCities={loadCities} pollution={pollution}
+                            <ResultBox pollution={pollution}
                                        setTypePollution={setTypePollution}/>
                         </Animated>
                     </div>
@@ -60,8 +79,7 @@ class ContentBox extends React.Component {
 ContentBox.propTypes = {
     request: PropTypes.object.isRequired,
     pollution: PropTypes.object.isRequired,
-    setTypePollution: PropTypes.func.isRequired,
-    loadCities: PropTypes.func.isRequired
+    setTypePollution: PropTypes.func.isRequired
 };
 
 export default ContentBox;
