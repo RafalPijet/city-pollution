@@ -12,22 +12,6 @@ class ContentBox extends React.Component {
         isReady: false
     };
 
-    // UNSAFE_componentWillReceiveProps(nextProps) {
-    //     this.setState({isReady: false});
-    //     if (nextProps.pollution.pm25.length === 10 && nextProps.pollution.pm10.length === 10 &&
-    //         nextProps.pollution.so2.length === 10 && nextProps.pollution.no2.length === 10) {
-    //         this.setState({isReady: true});
-    //     }
-    // }
-
-    // componentDidUpdate(prevProps, prevState, snapshot) {
-    //
-    //     if (this.props.pollution.pm25.length === 10 && this.props.pollution.pm10.length === 10 &&
-    //         this.props.pollution.so2.length === 10 && this.props.pollution.no2.length === 10) {
-    //         this.setState({isReady: true});
-    //     }
-    // }
-
     static getDerivedStateFromProps(props, state) {
         if (props.pollution.pm25.length === 10 && props.pollution.pm10.length === 10 &&
             props.pollution.so2.length === 10 && props.pollution.no2.length === 10) {

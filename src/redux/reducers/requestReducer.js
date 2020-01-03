@@ -11,7 +11,6 @@ const initialState = {
     pending: false,
     error: null,
     success: null,
-    working: false,
     info: false
 };
 
@@ -22,13 +21,13 @@ const reducer = (state = initialState, action) => {
         case STOP_REQUEST:
             return {...state, pending: false, error: null, success: true};
         case ERROR_REQUEST:
-            return {...state, pending: false, error: action.error, success: false, working: false, info: false};
+            return {...state, pending: false, error: action.error, success: false, info: false};
         case RESET_REQUEST:
-            return {...state, pending: false, error: null, success: null, working: false, info: false};
+            return {...state, pending: false, error: null, success: null};
         case START_WORKING_REQUEST:
-            return {...state, working: true, info: false};
+            return {...state, info: false};
         case STOP_WORKING_REQUEST:
-            return {...state, working: false, info: true};
+            return {...state, info: true};
         default:
             return state
     }

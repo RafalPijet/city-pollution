@@ -17,16 +17,9 @@ class SearchBox extends React.Component {
         setCountries(availableCountries);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
-
-        if (Object.keys(nextProps.country).length !== 0) {
-            this.setState({check: true, isDisabled: true})
-        }
-    }
-
-    checkAvailableCountry = (isForDisabled, name) => {
+    checkAvailableCountry = async (isForDisabled, name) => {
         const {countries} = this.props;
-
+        // await this.setState({name: name});
         if (isForDisabled) {
             let result = true;
             countries.forEach(item => {
@@ -36,7 +29,9 @@ class SearchBox extends React.Component {
         } else {
             this.state.name.length === 0 ? this.setState({name: name.toUpperCase()}) :
                 this.setState({name: name});
-            if (this.state.check && this.state.name.length >= 1) {
+            // console.log(this.state.name);
+            if (this.state.check) {
+            // console.log('wwwww');
                 countries.forEach(item => {
                     if (item.name.includes(name)) {
                         this.setState({name: item.name, check: false});
@@ -61,7 +56,8 @@ class SearchBox extends React.Component {
         event.preventDefault();
         countries.forEach(item => {
             if (item.name === name) loadData(item);
-        })
+        });
+        this.setState({isDisabled: true, check: true})
     };
 
     loadData = async country => {

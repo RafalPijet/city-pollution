@@ -10,26 +10,8 @@ class InfoBox extends React.Component {
     state = {
         typePollution: 'Pm25',
         selectedItem: 0,
-        isWorking: false,
         isInfo: true
     };
-
-    // UNSAFE_componentWillReceiveProps(nextProps) {
-    //
-    //     if (nextProps.pollution.type !== this.state.typePollution) {
-    //         this.setState({typePollution: nextProps.pollution.type, selectedItem: 0});
-    //         this.setSelectedPollution(nextProps.pollution)
-    //     }
-    //     this.setState({
-    //         isWorking: nextProps.request.working,
-    //         isInfo: nextProps.request.info
-    //     })
-    // }
-
-    // componentDidMount() {
-    //     const {pollution} = this.props;
-    //     this.setSelectedPollution(pollution);
-    // }
 
     static getDerivedStateFromProps(props, state) {
 
@@ -40,7 +22,6 @@ class InfoBox extends React.Component {
             }
         }
         return {
-            isWorking: props.request.working,
             isInfo: props.request.info
         }
     }
@@ -77,9 +58,9 @@ class InfoBox extends React.Component {
 
     render() {
         let cities = this.props.cities.sort(sortByValue);
-        const {isWorking, isInfo} = this.state;
-        console.log(cities.length + " -- " + isInfo + ' -- ' + isWorking);
-        if (isWorking && !isInfo && cities.length < 10) {
+        const {isInfo} = this.state;
+
+        if (cities.length < 10) {
             return (
                 <div className='info-box-spinner'>
                     <Spinner/>
