@@ -12,7 +12,7 @@ class ContentBox extends React.Component {
         isReady: false
     };
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(props) {
         if (props.pollution.pm25.length === 10 && props.pollution.pm10.length === 10 &&
             props.pollution.so2.length === 10 && props.pollution.no2.length === 10) {
             return {

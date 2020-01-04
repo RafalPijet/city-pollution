@@ -6,24 +6,71 @@
   align-items: center;
 
   .search-box-select {
-    display: flex;
-    align-items: center;
+    position: relative;
     box-shadow: $box-shadow;
     padding: 0 20px;
     border-radius: $radius;
+    height: 70px;
+    width: 260px;
 
-    input {
-      font-size: $big-size;
-      outline: none;
-      height: 40px;
-      margin-left: 10px;
-      width: 105px;
-      padding-left: 10px;
-      background-color: inherit;
-      color: $color-back;
+    .input-box {
+      position: absolute;
+      left: 10px;
+      top: 16px;
+      display: flex;
+      flex-direction: column;
+
+      input {
+        font-size: $big-size;
+        outline: none;
+        height: 40px;
+        margin-left: 10px;
+        width: 105px;
+        padding-left: 10px;
+        background-color: inherit;
+        color: $color-back;
+      }
+
+      .suggestions {
+        border: 1px solid #999;
+        border-top-width: 0;
+        background-color: $color-unset;
+        list-style: none;
+        width: 105px;
+        margin-top: 0;
+        margin-left: 10px;
+        max-height: 143px;
+        overflow-y: auto;
+        padding-left: 0;
+
+        li {
+          padding-left: 10px;
+        }
+
+        li:hover, .suggestion-active {
+          background-color: $color-set;
+          cursor: pointer;
+          font-weight: 700;
+        }
+
+        li:not(:last-of-type) {
+          border-bottom: 1px solid #999;
+        }
+      }
+
+      .no-suggestions {
+        font-size: $small-size;
+        background-color: $color-set;
+        padding: 5px;
+        width: 105px;
+        margin-left: 10px;
+      }
     }
 
     button {
+      position: absolute;
+      top: 4px;
+      right: 5px;
       background-color: $color-background;
     }
   }
