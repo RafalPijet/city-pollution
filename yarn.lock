@@ -8955,6 +8955,13 @@ react-transition-group@^2.3.1:
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.4"
 
+react-z-index@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/react-z-index/-/react-z-index-3.0.0.tgz#8df824cd38c358c53ef2692332740b0dd6307649"
+  integrity sha512-+jPnrnZyC9TprkwhJw1MSmiz/UqOiWqaEPWcUhwdYtyLPBToDUrKLQQw3VDbRxCx3JB2NshGOh4N5KqDDhM14A==
+  dependencies:
+    prop-types "^15.6.2"
+
 react@^15.6.1:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/react/-/react-15.6.2.tgz#dba0434ab439cfe82f108f0f511663908179aa72"

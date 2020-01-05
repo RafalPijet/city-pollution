@@ -7,8 +7,6 @@ import {availableCountries} from "../../../utilities/functions";
 
 class SearchBox extends React.Component {
     state = {
-        name: '',
-        check: false,
         isDisabled: true,
         activeSuggestion: 0,
         filteredSuggestions: [],
@@ -42,29 +40,30 @@ class SearchBox extends React.Component {
             activeSuggestion: 0,
             filteredSuggestions: [],
             showSuggestions: false,
-            userInput: e.currentTarget.innerText
+            userInput: e.currentTarget.innerText,
+            isDisabled: this.checkAvailableCountry(e.currentTarget.innerText)
         })
     };
 
     onKeyDown = e => {
-        const {activeSuggestion, filteredSuggestions} = this.state;
-
-        if (e.keyCode === 13) {
-            console.log(filteredSuggestions.length + " --- " + activeSuggestion);
-            this.setState({
-                activeSuggestion: 0,
-                showSuggestions: false,
-                userInput: filteredSuggestions.length ? filteredSuggestions[activeSuggestion].name : '',
-                isDisabled: filteredSuggestions.length ?
-                    this.checkAvailableCountry(filteredSuggestions[activeSuggestion].name) : true
-            });
+        const {activeSuggestion, filteredSuggestions, userInput} = this.state;
+        if (e.keyCode === 13 && userInput.length !== 0) {
+            if (filteredSuggestions.length) {
+                this.setState({
+                    activeSuggestion: 0,
+                    showSuggestions: false,
+                    filteredSuggestions: [],
+                    userInput: filteredSuggestions[activeSuggestion].name,
+                    isDisabled: this.checkAvailableCountry(filteredSuggestions[activeSuggestion].name)
+                });
+            }
         } else if (e.keyCode === 38) {
             if (activeSuggestion === 0) {
                 return;
             }
             this.setState({activeSuggestion: activeSuggestion - 1});
         } else if (e.keyCode === 40) {
-            if (activeSuggestion - 1 === filteredSuggestions.length) {
+            if (activeSuggestion + 1 === filteredSuggestions.length) {
                 return;
             }
             this.setState({activeSuggestion: activeSuggestion + 1});
@@ -81,16 +80,17 @@ class SearchBox extends React.Component {
     };
 
     selectCountry = event => {
-        const {countries, resetRequest} = this.props;
+        const {resetRequest, countries} = this.props;
         const {userInput} = this.state;
-        const {loadData} = this;
-        // resetRequest();
+        const {loadData, checkAvailableCountry} = this;
+        resetRequest();
         event.preventDefault();
-        if (!this.checkAvailableCountry(userInput)) console.log(this.state.userInput);
-        // countries.forEach(item => {
-        //     if (item.name === name) loadData(item);
-        // });
-        // this.setState({isDisabled: true, check: true})
+        if (!checkAvailableCountry(userInput)) {
+            countries.forEach(country => {
+                if (country.name === userInput) loadData(country)
+            })
+        }
+        this.setState({isDisabled: true})
     };
 
     loadData = async country => {
@@ -164,7 +164,7 @@ class SearchBox extends React.Component {
             <Animated
                 animationIn='jackInTheBox'
                 isVisible={true}>
-                <form className='search-box-main' onSubmit={selectCountry}>
+                <div className='search-box-main' onSubmit={selectCountry}>
                     <div className='search-box-select'>
                         <Fragment>
                             <div className='input-box'>
@@ -176,35 +176,16 @@ class SearchBox extends React.Component {
                                 {suggestionsListComponent}
                             </div>
                         </Fragment>
-                        <Button disabled={isDisabled} variant={isDisabled ? 'danger' : 'success'}>Select</Button>
+                        <Button
+                            disabled={isDisabled} variant={isDisabled ? 'danger' : 'success'}
+                            onClick={selectCountry}
+                        >Select</Button>
                     </div>
-                </form>
+                </div>
             </Animated>
 
         )
     }
-
-    /*
-        render() {
-            const {nameHandling, selectCountry} = this;
-            const {name, isDisabled} = this.state;
-            return (
-                <Animated
-                    animationIn='jackInTheBox'
-                    isVisible={true}>
-                    <form className='search-box-main' onSubmit={selectCountry}>
-                        <div className='search-box-select'>
-                            <input
-                                type="text"
-                                value={name}
-                                onClick={() => this.setState({name: ''})}
-                                onChange={nameHandling}/>
-                            <Button disabled={isDisabled} variant={isDisabled ? "danger" : "success"}>Select</Button>
-                        </div>
-                    </form>
-                </Animated>
-            )
-        }*/
 }
 
 SearchBox.propTypes = {
