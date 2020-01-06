@@ -21,6 +21,10 @@ class ResultBox extends React.Component {
         if (activeTab !== tab) this.setState({activeTab: tab});
     };
 
+    componentWillUnmount() {
+        this.props.setTypePollution('');
+    }
+
     render() {
         const {pollution} = this.props;
         const {activeTab} = this.state;

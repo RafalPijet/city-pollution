@@ -8,9 +8,9 @@ import './InfoBox.scss';
 
 class InfoBox extends React.Component {
     state = {
-        typePollution: 'Pm25',
+        typePollution: '',
         selectedItem: 0,
-        isInfo: true
+        isInfo: false
     };
 
     static getDerivedStateFromProps(props, state) {
@@ -28,6 +28,7 @@ class InfoBox extends React.Component {
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         const {pollution} = this.props;
+
         if (prevState.typePollution !== this.state.typePollution) {
             this.setSelectedPollution(pollution);
         }
@@ -59,14 +60,13 @@ class InfoBox extends React.Component {
     render() {
         let cities = this.props.cities.sort(sortByValue);
         const {isInfo} = this.state;
-
         if (cities.length < 10) {
             return (
                 <div className='info-box-spinner'>
                     <Spinner/>
                 </div>
-            )
-        } else if (isInfo && cities.length === 10) {
+             )
+         } else if (isInfo && cities.length === 10) {
             return (
                 <div className='info-box-main'>
                     <Animated animationIn='flipInY'

@@ -70,6 +70,16 @@ class SearchBox extends React.Component {
         }
     };
 
+    resetState = () => {
+        this.setState({
+            isDisabled: true,
+            activeSuggestion: 0,
+            filteredSuggestions: [],
+            showSuggestions: false,
+            userInput: ""
+        })
+    };
+
     checkAvailableCountry =  name => {
         const {countries} = this.props;
         let result = true;
@@ -119,6 +129,7 @@ class SearchBox extends React.Component {
             onClick,
             onKeyDown,
             selectCountry,
+            resetState,
             state: {
                 activeSuggestion,
                 filteredSuggestions,
@@ -172,6 +183,7 @@ class SearchBox extends React.Component {
                                     type="text"
                                     onChange={onChange}
                                     onKeyDown={onKeyDown}
+                                    onClick={resetState}
                                     value={userInput}/>
                                 {suggestionsListComponent}
                             </div>

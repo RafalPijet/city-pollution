@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {OPENAQ_URL, CORS, WIKI_URL} from "../config";
+import store from './store';
 import {
     startRequest,
     stopRequest,
@@ -8,7 +9,7 @@ import {
     stopWorkingRequest
 } from "./actions/requestActions";
 import {setPM25Pollution, setPM10Pollution, setSO2Pollution, setNO2Pollution} from "./actions/pullutionActions";
-import {addCityOfCountry, setCitiesOfCountry} from "./actions/valuesActions";
+import {setCitiesOfCountry} from "./actions/valuesActions";
 import {transformData} from "../utilities/functions";
 
 export const loadPullutionDataRequest = (country, type) => {
@@ -40,10 +41,9 @@ export const loadPullutionDataRequest = (country, type) => {
 };
 
 export const loadInfoCitiesRequest = cities => {
-    return async dispatch => {
-        await dispatch(setCitiesOfCountry([]));
-        await dispatch(startWorkingRequest());
-        console.log('WOW');
+    return dispatch => {
+        dispatch(startWorkingRequest());
+        let receivedCities = [];
         cities.forEach(async item => {
             try {
                 let res = await axios.get(`${CORS}${WIKI_URL}?action=query&prop=extracts&format=json&exintro=&titles=${item.name}`);
@@ -53,12 +53,17 @@ export const loadInfoCitiesRequest = cities => {
                         res.data.query.pages[Object.keys(res.data.query.pages)].extract,
                     value: item.value
                 };
-                dispatch(addCityOfCountry(city));
+                await receivedCities.push(city);
             } catch (err) {
                 dispatch(errorRequest(err.message))
             }
         });
-        dispatch(stopWorkingRequest());
-
+        dispatch(setCitiesOfCountry(receivedCities));
+        const check = setInterval(() => {
+            if (store.getState().values.citiesOfCountry.length === 10) {
+                dispatch(stopWorkingRequest());
+                clearInterval(check);
+            }
+        }, 100);
     }
 };
