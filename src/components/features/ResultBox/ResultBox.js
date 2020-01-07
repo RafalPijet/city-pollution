@@ -31,48 +31,27 @@ class ResultBox extends React.Component {
         return (
             <div className='result-box-main'>
                 <Nav tabs>
-                    <NavItem>
-                        <NavLink
-                            onClick={() => this.toggle(1, 'Pm25')}
-                            className={`${classnames({active: activeTab === 1})} btn`}>
-                            {`Pm25`}
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink
-                            onClick={() => this.toggle(2, 'Pm10')}
-                            className={`${classnames({active: activeTab === 2})} btn`}>
-                            {`Pm10`}
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink
-                            onClick={() => this.toggle(3, 'So2')}
-                            className={`${classnames({active: activeTab === 3})} btn`}>
-                            {`S02`}
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink
-                            onClick={() => this.toggle(4, 'No2')}
-                            className={`${classnames({active: activeTab === 4})} btn`}>
-                            {`No2`}
-                        </NavLink>
-                    </NavItem>
+                    {Array.from(Object.keys(pollution)).slice(0, 4).map((item, i) => {
+                        return (
+                            <NavItem key={i}>
+                                <NavLink
+                                    onClick={() => this.toggle(i + 1,
+                                        `${item.charAt(0).toUpperCase()}${item.substring(1, item.length)}`)}
+                                    className={`${classnames({active: activeTab === i + 1})} btn`}>
+                                    {`${item.charAt(0).toUpperCase()}${item.substring(1, item.length)}`}
+                                </NavLink>
+                            </NavItem>
+                        )
+                    })}
                 </Nav>
                 <TabContent activeTab={activeTab}>
-                    <TabPane tabId={1}>
-                        <ResultList pollution={pollution.pm25} name='pm25' unit='µg/m³'/>
-                    </TabPane>
-                    <TabPane tabId={2}>
-                        <ResultList pollution={pollution.pm10} name='pm10' unit='µg/m³'/>
-                    </TabPane>
-                    <TabPane tabId={3}>
-                        <ResultList pollution={pollution.so2} name='so2' unit='µg/m³'/>
-                    </TabPane>
-                    <TabPane tabId={4}>
-                        <ResultList pollution={pollution.no2} name='no2' unit='µg/m³'/>
-                    </TabPane>
+                    {Object.entries(pollution).slice(0, 4).map((item, i) => {
+                        return (
+                            <TabPane key={i} tabId={i + 1}>
+                                <ResultList pollution={item[1]} name={item[0]} unit='µg/m³'/>
+                            </TabPane>
+                        )
+                    })}
                 </TabContent>
             </div>
         )
