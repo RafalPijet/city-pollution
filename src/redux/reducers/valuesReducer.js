@@ -6,7 +6,7 @@ import {
 
 const initialState = {
     countries: [],
-    selectedCountry: {},
+    selectedCountry: {country: "", name: ""},
     citiesOfCountry: []
 };
 

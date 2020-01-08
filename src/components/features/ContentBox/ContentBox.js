@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import ResultBox from '../ResultBox/ResultBox';
 import InfoBox from '../InfoBox/InfoBoxContainer';
@@ -7,59 +7,53 @@ import Alert from '../../common/Alert/Alert';
 import {Animated} from "react-animated-css";
 import './ContentBox.scss';
 
-class ContentBox extends React.Component {
-    state = {
-        isReady: false
-    };
+const ContentBox = props => {
+    const [isReady, setIsReady] = useState(false);
+    const {request, pollution, setTypePollution} = props;
 
-    static getDerivedStateFromProps(props) {
-
-        if (props.pollution.pm25.length === 10 && props.pollution.pm10.length === 10 &&
-            props.pollution.so2.length === 10 && props.pollution.no2.length === 10) {
-            return {
-                isReady: true
-            }
+    useEffect(() => {
+        if (pollution.pm25.length === 10 && pollution.pm10.length === 10 &&
+            pollution.so2.length === 10 && pollution.no2.length === 10) {
+            setIsReady(true)
         }
-        return null;
-    }
+        return () => {
+            setIsReady(false)
+        }
+    }, [pollution]);
 
-    render() {
-        const {request, pollution, setTypePollution} = this.props;
-
-        if (request.pending) {
-            return <Spinner/>
-        } else if (request.error !== null && !request.pending) {
-            return (
-                <Alert variant='error' isVisible={true}>{request.error}</Alert>
-            )
-        } else if (request.success && this.state.isReady) {
-            return (
-                <div className='content-box-main'>
-                    <div className='content-animated'>
-                        <Animated
-                            animationIn='flipInY'
-                            isVisible={this.state.isReady}>
-                            <ResultBox pollution={pollution}
-                                       setTypePollution={setTypePollution}/>
-                        </Animated>
-                    </div>
-                    <InfoBox/>
+    if (request.pending) {
+        return <Spinner/>
+    } else if (request.error !== null && !request.pending) {
+        return (
+            <Alert variant='error' isVisible={true}>{request.error}</Alert>
+        )
+    } else if (request.success && isReady) {
+        return (
+            <div className='content-box-main'>
+                <div className='content-animated'>
+                    <Animated
+                        animationIn='flipInY'
+                        isVisible={isReady}>
+                        <ResultBox pollution={pollution}
+                                   setTypePollution={setTypePollution}/>
+                    </Animated>
                 </div>
-            )
-        } else {
-            return (
-                <Animated
-                    animationIn='fadeIn'
-                    animationInDelay={2000}
-                    isVisible={true}>
-                    <div className='content-box-info'>
-                        <p>Select a country</p>
-                    </div>
-                </Animated>
-            )
-        }
+                <InfoBox/>
+            </div>
+        )
+    } else {
+        return (
+            <Animated
+                animationIn='fadeIn'
+                animationInDelay={2000}
+                isVisible={true}>
+                <div className='content-box-info'>
+                    <p>Select a country</p>
+                </div>
+            </Animated>
+        )
     }
-}
+};
 
 ContentBox.propTypes = {
     request: PropTypes.object.isRequired,

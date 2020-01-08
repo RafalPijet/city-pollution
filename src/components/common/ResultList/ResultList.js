@@ -20,7 +20,6 @@ const ResultList = props => {
                     return <ResultItem key={i} pollution={item} i={i}/>
                 })}
                 </tbody>
-
             </Table>
         </div>
     )

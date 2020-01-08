@@ -17,7 +17,8 @@ export const loadPullutionDataRequest = (country, type) => {
         await dispatch(startRequest());
 
         try {
-            let res = await axios.get(`${OPENAQ_URL}?country=${country.country}&parameter=${type}&limit=400&order_by=value&sort=desc`);
+            let res = await axios.get(
+                `${OPENAQ_URL}?country=${country.country}&parameter=${type}&limit=400&order_by=value&sort=desc`);
             switch (type) {
                 case 'pm25':
                     dispatch(setPM25Pollution(transformData(res.data.results)));
@@ -46,7 +47,8 @@ export const loadInfoCitiesRequest = cities => {
         let receivedCities = [];
         cities.forEach(async item => {
             try {
-                let res = await axios.get(`${CORS}${WIKI_URL}?action=query&prop=extracts&format=json&exintro=&titles=${item.name}`);
+                let res = await axios.get(
+                    `${CORS}${WIKI_URL}?action=query&prop=extracts&format=json&exintro=&titles=${item.name}`);
                 let city = {
                     name: res.data.query.pages[Object.keys(res.data.query.pages)].title,
                     description: (res.data.query.pages[Object.keys(res.data.query.pages)].extract === undefined) ? "" :
