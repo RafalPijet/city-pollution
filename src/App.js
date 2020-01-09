@@ -2,7 +2,7 @@ import React from 'react';
 import {Switch, Route} from 'react-router-dom';
 import MainLayout from './components/layouts/MainLayout/MainLayout';
 import Home from './components/pages/Home/Home';
-import Countries from './components/pages/Countries/Countries';
+import SearchBox from "./components/features/SearchBox/SearchBoxContainer";
 import PageNotFound from './components/pages/PageNotFound/PageNotFound';
 
 function App() {
@@ -10,7 +10,9 @@ function App() {
         <MainLayout>
             <Switch>
                 <Route path='/' exact component={Home}/>
-                <Route path='/countries' exact component={Countries}/>
+                <Route path='/countries'>
+                    <SearchBox/>
+                </Route>
                 <Route component={PageNotFound}/>
             </Switch>
         </MainLayout>

@@ -1,7 +1,10 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
+import ZIndex from 'react-z-index';
+import {Link, useRouteMatch, Switch, Route} from 'react-router-dom';
 import './SearchBox.scss';
 import Button from '../../common/Button/Button';
+import ContentBox from "../ContentBox/ContentBoxContainer";
 import {Animated} from "react-animated-css";
 import {availableCountries} from "../../../utilities/functions";
 
@@ -27,8 +30,14 @@ const SearchBox = props => {
 
     useEffect(() => {
         if (country.name.length) setInputPlaceholder(country.name);
-        setCountries(availableCountries)
+        setCountries(availableCountries);
     }, [setCountries, country.name]);
+
+    useEffect(() => {
+        return () => {
+            setCountry({country: "", name: ""});
+        }
+    }, [setCountry]);
 
     const onChange = e => {
         const userInput = e.currentTarget.value;
@@ -140,31 +149,51 @@ const SearchBox = props => {
             );
         }
     }
+    let {path} = useRouteMatch();
 
     return (
         <Animated
-            animationIn='jackInTheBox'
+            animationIn={'jackInTheBox'}
             isVisible={true}>
-            <div className='search-box-main' onSubmit={selectCountry}>
-                <div className='search-box-select'>
-                    <Fragment>
-                        <div className='input-box'>
-                            <input
-                                type="text"
-                                onChange={onChange}
-                                onKeyDown={onKeyDown}
-                                onClick={resetState}
-                                placeholder={inputPlaceholder}
-                                value={userInput}/>
-                            {suggestionsListComponent}
-                        </div>
-                    </Fragment>
-                    <Button
-                        disabled={isDisabled} variant={isDisabled ? 'danger' : 'success'}
-                        onClick={selectCountry}
-                    >Select</Button>
+            <ZIndex index={10}>
+                <div className='search-box-main'>
+                    <div className='search-box-select'>
+                        <Fragment>
+                            <div className='input-box'>
+                                <input
+                                    type="text"
+                                    onChange={onChange}
+                                    onKeyDown={onKeyDown}
+                                    onClick={resetState}
+                                    placeholder={inputPlaceholder}
+                                    value={userInput}/>
+                                {suggestionsListComponent}
+                            </div>
+                        </Fragment>
+                        <Link to={`/countries/${userInput}`} onClick={selectCountry} disabled={isDisabled}>
+                            <Button
+                                disabled={isDisabled} variant={isDisabled ? 'danger' : 'success'}
+                            >Select</Button>
+                        </Link>
+                    </div>
                 </div>
-            </div>
+            </ZIndex>
+            <Animated
+                animationIn='fadeIn'
+                animationInDelay={2000}
+                isVisible={country.name.length === 0}>
+                <div hidden={country.name.length !== 0} className='select-country'>
+                    <p>Select a country</p>
+                </div>
+            </Animated>
+
+            <Switch>
+                <Route path={`${path}/:name`}>
+                    <ZIndex index={1}>
+                        <ContentBox/>
+                    </ZIndex>
+                </Route>
+            </Switch>
         </Animated>
     )
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link, withRouter} from 'react-router-dom'
+import {checkPath} from "../../../utilities/functions";
 import './NavBar.scss';
 
 const NavBar = ({links, location}) => {
@@ -9,7 +10,7 @@ const NavBar = ({links, location}) => {
             <ul className='list-box'>
                 {links.map((link, i) => (
                     <li key={i}>
-                        <Link className={(location.pathname === link.path && 'active') || ''}
+                        <Link className={checkPath(location.pathname, link.path) ? 'active' : ''}
                               to={link.path}>{link.title}</Link>
                     </li>
                 ))}

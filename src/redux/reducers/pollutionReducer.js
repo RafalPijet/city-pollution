@@ -11,7 +11,7 @@ const initialState = {
     pm10: [],
     so2: [],
     no2: [],
-    type: ''
+    type: 'Pm25'
 };
 
 const reducer = (state = initialState, action) => {

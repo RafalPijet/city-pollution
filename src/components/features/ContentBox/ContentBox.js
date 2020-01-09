@@ -42,16 +42,7 @@ const ContentBox = props => {
             </div>
         )
     } else {
-        return (
-            <Animated
-                animationIn='fadeIn'
-                animationInDelay={2000}
-                isVisible={true}>
-                <div className='content-box-info'>
-                    <p>Select a country</p>
-                </div>
-            </Animated>
-        )
+        return <Spinner/>
     }
 };
 

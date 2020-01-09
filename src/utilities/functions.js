@@ -9,6 +9,18 @@ export const availableCountries = [
     {country: "ES", name: "Spain"}
 ];
 
+export const checkPath = (path, link) => {
+    let result = false;
+    if (path === link) {
+        result = true
+    } else if (link !== "/") {
+        availableCountries.forEach(item => {
+                if (path.includes(item.name)) result = true
+            });
+    }
+    return result
+};
+
 export const transformData = data => {
     let set = Array.from(new Set(data.map(item => JSON.stringify(item.city)))).map(JSON.parse);
     let result = [];
