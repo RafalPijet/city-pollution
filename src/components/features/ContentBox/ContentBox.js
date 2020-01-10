@@ -4,12 +4,13 @@ import ResultBox from '../ResultBox/ResultBox';
 import InfoBox from '../InfoBox/InfoBoxContainer';
 import Spinner from '../../common/Spinner/Spinner';
 import Alert from '../../common/Alert/Alert';
+import PageNotFound from "../../pages/PageNotFound/PageNotFound";
 import {Animated} from "react-animated-css";
 import './ContentBox.scss';
 
 const ContentBox = props => {
     const [isReady, setIsReady] = useState(false);
-    const {request, pollution, setTypePollution} = props;
+    const {request, pollution, setTypePollution, country} = props;
 
     useEffect(() => {
         if (pollution.pm25.length === 10 && pollution.pm10.length === 10 &&
@@ -41,6 +42,8 @@ const ContentBox = props => {
                 <InfoBox/>
             </div>
         )
+    } else if (country.name.length === 0) {
+        return <PageNotFound/>
     } else {
         return <Spinner/>
     }
@@ -49,6 +52,7 @@ const ContentBox = props => {
 ContentBox.propTypes = {
     request: PropTypes.object.isRequired,
     pollution: PropTypes.object.isRequired,
+    country: PropTypes.object.isRequired,
     setTypePollution: PropTypes.func.isRequired
 };
 

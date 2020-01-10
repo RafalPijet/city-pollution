@@ -1,7 +1,7 @@
 import React, {Fragment, useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import ZIndex from 'react-z-index';
-import {Link, useRouteMatch, Switch, Route} from 'react-router-dom';
+import {Link, useRouteMatch, Switch, Route, useLocation} from 'react-router-dom';
 import './SearchBox.scss';
 import Button from '../../common/Button/Button';
 import ContentBox from "../ContentBox/ContentBoxContainer";
@@ -28,10 +28,21 @@ const SearchBox = props => {
     const [userInput, setUserInput] = useState("");
     const [inputPlaceholder, setInputPlaceholder] = useState("Country");
 
+    let location = useLocation();
+
     useEffect(() => {
         if (country.name.length) setInputPlaceholder(country.name);
         setCountries(availableCountries);
-    }, [setCountries, country.name]);
+    }, [setCountries, country]);
+
+    useEffect(() => {
+        if (location.pathname.length > 10 && userInput.length === 0 &&
+            !checkAvailableCountry(availableCountries, location.pathname.substring(11, location.pathname.length))) {
+            let country = availableCountries.find(
+                item => item.name === location.pathname.substring(11, location.pathname.length));
+            loadData(country);
+        }
+    }, [location, userInput]);
 
     useEffect(() => {
         return () => {
@@ -48,7 +59,7 @@ const SearchBox = props => {
         setFilteredSuggestions(filteredSuggestions);
         setShowSuggestions(true);
         setUserInput(e.currentTarget.value);
-        setIsDisabled(checkAvailableCountry(e.currentTarget.value));
+        setIsDisabled(checkAvailableCountry(countries, e.currentTarget.value));
     };
 
     const onClick = e => {
@@ -56,7 +67,7 @@ const SearchBox = props => {
         setFilteredSuggestions([]);
         setShowSuggestions(false);
         setUserInput(e.currentTarget.innerText);
-        setIsDisabled(checkAvailableCountry(e.currentTarget.innerText));
+        setIsDisabled(checkAvailableCountry(countries, e.currentTarget.innerText));
     };
 
     const onKeyDown = e => {
@@ -66,7 +77,7 @@ const SearchBox = props => {
                 setShowSuggestions(false);
                 setFilteredSuggestions([]);
                 setUserInput(filteredSuggestions[activeSuggestion].name);
-                setIsDisabled(checkAvailableCountry(filteredSuggestions[activeSuggestion].name));
+                setIsDisabled(checkAvailableCountry(countries, filteredSuggestions[activeSuggestion].name));
             }
         } else if (e.keyCode === 38) {
             if (activeSuggestion === 0) {
@@ -81,7 +92,7 @@ const SearchBox = props => {
         }
     };
 
-    const checkAvailableCountry = name => {
+    const checkAvailableCountry = (countries, name) => {
         let result = true;
         countries.forEach(country => {
             if (country.name.toLowerCase() === name.toLowerCase()) result = false
@@ -99,7 +110,7 @@ const SearchBox = props => {
 
     const selectCountry = () => {
         resetRequest();
-        if (!checkAvailableCountry(userInput)) {
+        if (!checkAvailableCountry(countries, userInput)) {
             countries.forEach(country => {
                 if (country.name === userInput) loadData(country)
             })
@@ -150,7 +161,6 @@ const SearchBox = props => {
         }
     }
     let {path} = useRouteMatch();
-
     return (
         <Animated
             animationIn={'jackInTheBox'}
