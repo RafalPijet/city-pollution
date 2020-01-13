@@ -6,7 +6,7 @@ import './SearchBox.scss';
 import Button from '../../common/Button/Button';
 import ContentBox from "../ContentBox/ContentBoxContainer";
 import {Animated} from "react-animated-css";
-import {availableCountries} from "../../../utilities/functions";
+import {availableCountries, availablePollution} from "../../../utilities/functions";
 
 const SearchBox = props => {
     const {
@@ -19,7 +19,9 @@ const SearchBox = props => {
         setPM10Pollution,
         setSO2Pollution,
         setNO2Pollution,
-        country
+        setTypePollution,
+        country,
+        pollution
     } = props;
     const [isDisabled, setIsDisabled] = useState(true);
     const [activeSuggestion, setActiveSuggestion] = useState(0);
@@ -27,6 +29,7 @@ const SearchBox = props => {
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [userInput, setUserInput] = useState("");
     const [inputPlaceholder, setInputPlaceholder] = useState("Country");
+    const [isUrl, setIsUrl] = useState(true);
 
     let location = useLocation();
 
@@ -36,13 +39,18 @@ const SearchBox = props => {
     }, [setCountries, country]);
 
     useEffect(() => {
-        if (location.pathname.length > 10 && userInput.length === 0 &&
-            !checkAvailableCountry(availableCountries, location.pathname.substring(11, location.pathname.length))) {
+        if (location.pathname.length > 10 && userInput.length === 0 && isUrl &&
+            !checkAvailableCountry(availableCountries, location.pathname.substring(11, location.pathname.lastIndexOf('/')))) {
+            let pollutionType = location.pathname.substring(location.pathname.lastIndexOf('/') + 1, location.pathname.length);
             let country = availableCountries.find(
-                item => item.name === location.pathname.substring(11, location.pathname.length));
-            loadData(country);
+                item => item.name === location.pathname.substring(11, location.pathname.lastIndexOf('/')));
+            if (country.name.length && availablePollution.includes(pollutionType)) {
+                loadData(country);
+                setTypePollution(pollutionType);
+                setIsUrl(false);
+            }
         }
-    }, [location, userInput]);
+    }, [location, userInput, setTypePollution, isUrl]);
 
     useEffect(() => {
         return () => {
@@ -60,6 +68,7 @@ const SearchBox = props => {
         setShowSuggestions(true);
         setUserInput(e.currentTarget.value);
         setIsDisabled(checkAvailableCountry(countries, e.currentTarget.value));
+        setIsUrl(false);
     };
 
     const onClick = e => {
@@ -105,7 +114,7 @@ const SearchBox = props => {
         setActiveSuggestion(0);
         setFilteredSuggestions([]);
         setShowSuggestions(false);
-        setUserInput("");
+        setUserInput('');
     };
 
     const selectCountry = () => {
@@ -180,7 +189,7 @@ const SearchBox = props => {
                                 {suggestionsListComponent}
                             </div>
                         </Fragment>
-                        <Link to={`/countries/${userInput}`} onClick={selectCountry} disabled={isDisabled}>
+                        <Link to={`/countries/${userInput}/${pollution.type}`} onClick={selectCountry} disabled={isDisabled}>
                             <Button
                                 disabled={isDisabled} variant={isDisabled ? 'danger' : 'success'}
                             >Select</Button>
@@ -196,9 +205,8 @@ const SearchBox = props => {
                     <p>Select a country</p>
                 </div>
             </Animated>
-
             <Switch>
-                <Route path={`${path}/:name`}>
+                <Route path={`${path}/:name/:type`}>
                     <ZIndex index={1}>
                         <ContentBox/>
                     </ZIndex>
@@ -213,13 +221,15 @@ SearchBox.propTypes = {
     setCountry: PropTypes.func.isRequired,
     countries: PropTypes.array.isRequired,
     country: PropTypes.object.isRequired,
+    pollution: PropTypes.object.isRequired,
     loadPollution: PropTypes.func.isRequired,
     resetRequest: PropTypes.func.isRequired,
     request: PropTypes.object.isRequired,
     setPM25Pollution: PropTypes.func.isRequired,
     setPM10Pollution: PropTypes.func.isRequired,
     setSO2Pollution: PropTypes.func.isRequired,
-    setNO2Pollution: PropTypes.func.isRequired
+    setNO2Pollution: PropTypes.func.isRequired,
+    setTypePollution: PropTypes.func.isRequired
 };
 
 export default SearchBox;

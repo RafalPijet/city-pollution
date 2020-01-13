@@ -35,7 +35,7 @@ const ContentBox = props => {
                     <Animated
                         animationIn='flipInY'
                         isVisible={isReady}>
-                        <ResultBox pollution={pollution}
+                        <ResultBox pollution={pollution} country={country}
                                    setTypePollution={setTypePollution}/>
                     </Animated>
                 </div>

@@ -11,13 +11,16 @@ import {
     setPM25Pollution,
     setPM10Pollution,
     setSO2Pollution,
-    setNO2Pollution
+    setNO2Pollution,
+    getPollution,
+    setTypePollution
 } from "../../../redux/actions/pullutionActions";
 import SearchBox from './SearchBox';
 
 const mapDispatchToProps = dispatch => ({
     setCountries: countries => dispatch(setAvailableCountries(countries)),
     setCountry: country => dispatch(setSelectedCountry(country)),
+    setTypePollution: type => dispatch(setTypePollution(type)),
     loadPollution: (country, type) => dispatch(loadPullutionDataRequest(country, type)),
     resetRequest: () => dispatch(resetRequest()),
     setPM25Pollution: cities => dispatch(setPM25Pollution(cities)),
@@ -29,7 +32,8 @@ const mapDispatchToProps = dispatch => ({
 const mapStateToProps = state => ({
     countries: getAvailableCountries(state),
     country: getSelectedCountry(state),
-    request: getRequest(state)
+    request: getRequest(state),
+    pollution: getPollution(state)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchBox);

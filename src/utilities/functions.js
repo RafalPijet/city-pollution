@@ -9,6 +9,8 @@ export const availableCountries = [
     {country: "ES", name: "Spain"}
 ];
 
+export const availablePollution = ["Pm25", "Pm10", "So2", "No2"];
+
 export const checkPath = (path, link) => {
     let result = false;
     if (path === link) {
