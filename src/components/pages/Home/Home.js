@@ -34,7 +34,8 @@ const Home = () => (
             animationInDelay={7000}
             isVisible={true}>
             <div className='home-info'>
-                <h2>in France, Germany, Poland and Spain</h2>
+                <h2>in France, Germany, Poland, Spain</h2>
+                <h2>and United Kingdom</h2>
             </div>
         </Animated>
         <Animated

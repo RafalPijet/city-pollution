@@ -6,7 +6,8 @@ export const availableCountries = [
     {country: "PL", name: "Poland"},
     {country: "FR", name: "France"},
     {country: "DE", name: "Germany"},
-    {country: "ES", name: "Spain"}
+    {country: "ES", name: "Spain"},
+    {country: "GB", name: "United Kingdom"}
 ];
 
 export const availablePollution = ["Pm25", "Pm10", "So2", "No2"];

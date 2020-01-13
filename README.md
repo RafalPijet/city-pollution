@@ -1,6 +1,10 @@
-## Solution of task
+## City pollution
 
 In the project directory, you can run:
+
+### `yarn install`
+
+Runs to install all dependencies for a project.
 
 ### `yarn start`
 
